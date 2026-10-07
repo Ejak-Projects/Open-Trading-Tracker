@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Open Trading Tracker
+Comment=A modern, native portfolio and trading tracker
+Exec=/usr/bin/open-trading-tracker
+Icon=open-trading-tracker
+Terminal=false
+Categories=Finance;Office;Utility;

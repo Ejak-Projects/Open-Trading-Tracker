@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Circular Background (Catppuccin Mocha Base) -->
+  <circle cx="128" cy="128" r="128" fill="#1e1e2e"/>
+  
+  <!-- Centered Minimalist $ Symbol (Catppuccin Mocha Green) -->
+  <text x="128" y="142" font-family="sans-serif" font-weight="900" font-size="140" fill="#a6e3a1" text-anchor="middle" dominant-baseline="middle">$</text>
+  
+  <!-- Minimalist Little Cat (Catppuccin Mocha Mauve) -->
+  <g transform="translate(150, 135) scale(0.6)">
+    <!-- tail -->
+    <path d="M 80 80 Q 120 80 110 30" stroke="#cba6f7" stroke-width="12" stroke-linecap="round" fill="none"/>
+    
+    <!-- body -->
+    <path d="M 20 70 C 20 10, 80 10, 80 70 C 80 110, 20 110, 20 70 Z" fill="#cba6f7"/>
+    
+    <!-- left ear -->
+    <polygon points="25,40 5,0 50,25" fill="#cba6f7" stroke="#cba6f7" stroke-width="2" stroke-linejoin="round"/>
+    
+    <!-- right ear -->
+    <polygon points="75,40 95,0 50,25" fill="#cba6f7" stroke="#cba6f7" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+</svg>
