@@ -10,8 +10,6 @@
 
 ## 📸 Screenshots
 
-> **Note:** Add your actual screenshot files to the `assets/` folder and update these paths.
-
 <p align="center">
   <img src="assets/screenshot_dashboard.png" width="48%" alt="Dashboard View">
   <img src="assets/screenshot_transactions.png" width="48%" alt="Transactions View">
