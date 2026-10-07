@@ -58,19 +58,19 @@ Item {
                         
                         ColumnLayout {
                             Layout.fillWidth: true
-                            Label { text: "📅 Snapshot: " + model.date; font.bold: true; font.pixelSize: 18; color: palette.text }
+                            SelectableLabel { text: "📅 Snapshot: " + model.date; font.bold: true; font.pixelSize: 18; color: palette.text }
                         }
                         
                         ColumnLayout {
                             Layout.fillWidth: true
-                            Label { text: "Invested: $" + model.total_investment; color: palette.placeholderText }
-                            Label { text: "Market Value: $" + model.current_value; color: palette.text }
+                            SelectableLabel { text: "Invested: " + window.fmtCurrency(model.total_investment); color: palette.placeholderText }
+                            SelectableLabel { text: "Market Value: " + window.fmtCurrency(model.current_value); color: palette.text }
                         }
                         
                         ColumnLayout {
                             Layout.alignment: Qt.AlignRight
-                            Label { 
-                                text: (parseFloat(model.profit_loss) >= 0 ? "+$" : "-$") + Math.abs(parseFloat(model.profit_loss)).toFixed(2)
+                            SelectableLabel { 
+                                text: (parseFloat(model.profit_loss) >= 0 ? "+" : "-") + window.fmtCurrency(Math.abs(parseFloat(model.profit_loss)))
                                 font.bold: true
                                 font.pixelSize: 20
                                 color: parseFloat(model.profit_loss) >= 0 ? window.colGreen : window.colRed
@@ -146,7 +146,7 @@ Item {
                     ColumnLayout {
                         anchors.centerIn: parent
                         Label { text: "Total Invested"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                        Label { text: overlayDashboard.snapshotData ? "$" + overlayDashboard.snapshotData.total_investment : ""; font.pixelSize: 24; font.bold: true; color: palette.text; Layout.alignment: Qt.AlignHCenter }
+                        SelectableLabel { text: overlayDashboard.snapshotData ? window.fmtCurrency(overlayDashboard.snapshotData.total_investment) : ""; font.pixelSize: 24; font.bold: true; color: palette.text; Layout.alignment: Qt.AlignHCenter }
                     }
                 }
                 Rectangle {
@@ -154,7 +154,7 @@ Item {
                     ColumnLayout {
                         anchors.centerIn: parent
                         Label { text: "Market Value"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                        Label { text: overlayDashboard.snapshotData ? "$" + overlayDashboard.snapshotData.current_value : ""; font.pixelSize: 24; font.bold: true; color: palette.text; Layout.alignment: Qt.AlignHCenter }
+                        SelectableLabel { text: overlayDashboard.snapshotData ? window.fmtCurrency(overlayDashboard.snapshotData.current_value) : ""; font.pixelSize: 24; font.bold: true; color: palette.text; Layout.alignment: Qt.AlignHCenter }
                     }
                 }
                 Rectangle {
@@ -162,8 +162,8 @@ Item {
                     ColumnLayout {
                         anchors.centerIn: parent
                         Label { text: "Overall Return"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                        Label { 
-                            text: overlayDashboard.snapshotData ? ((parseFloat(overlayDashboard.snapshotData.profit_loss) >= 0 ? "+$" : "-$") + Math.abs(parseFloat(overlayDashboard.snapshotData.profit_loss)).toFixed(2)) : ""
+                        SelectableLabel { 
+                            text: overlayDashboard.snapshotData ? ((parseFloat(overlayDashboard.snapshotData.profit_loss) >= 0 ? "+" : "-") + window.fmtCurrency(Math.abs(parseFloat(overlayDashboard.snapshotData.profit_loss)))) : ""
                             font.pixelSize: 24; font.bold: true
                             color: overlayDashboard.snapshotData && parseFloat(overlayDashboard.snapshotData.profit_loss) >= 0 ? window.colGreen : window.colRed
                             Layout.alignment: Qt.AlignHCenter

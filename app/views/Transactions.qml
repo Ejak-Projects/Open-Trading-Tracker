@@ -55,16 +55,16 @@ Item {
                             TextField { id: inTicker; Layout.fillWidth: true }
 
                             Label { text: "Quantity"; color: palette.placeholderText }
-                            TextField { id: inQty; Layout.fillWidth: true; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: inQty; Layout.fillWidth: true; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Unit Price"; color: palette.placeholderText }
-                            TextField { id: inPrice; Layout.fillWidth: true; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: inPrice; Layout.fillWidth: true; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Broker Commission"; color: palette.placeholderText }
-                            TextField { id: inComm; Layout.fillWidth: true; text: "0.0"; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: inComm; Layout.fillWidth: true; text: "0.0"; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Buy Taxes"; color: palette.placeholderText }
-                            TextField { id: inBuyTaxes; Layout.fillWidth: true; text: "0.0"; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: inBuyTaxes; Layout.fillWidth: true; text: "0.0"; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Item { Layout.fillHeight: true } // spacer
 
@@ -74,7 +74,12 @@ Item {
                                 highlighted: true
                                 onClicked: {
                                     txController.add_transaction(
-                                        inDate.text, inTicker.text, inQty.text, inPrice.text, inComm.text, inBuyTaxes.text
+                                        inDate.text, 
+                                        inTicker.text, 
+                                        window.sanitizeNum(inQty.text), 
+                                        window.sanitizeNum(inPrice.text), 
+                                        window.sanitizeNum(inComm.text), 
+                                        window.sanitizeNum(inBuyTaxes.text)
                                     )
                                     inTicker.text = ""
                                     inQty.text = ""
@@ -105,16 +110,16 @@ Item {
                             TextField { id: outTicker; Layout.fillWidth: true }
 
                             Label { text: "Quantity to Sell"; color: palette.placeholderText }
-                            TextField { id: outQty; Layout.fillWidth: true; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: outQty; Layout.fillWidth: true; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Exit Unit Price"; color: palette.placeholderText }
-                            TextField { id: outPrice; Layout.fillWidth: true; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: outPrice; Layout.fillWidth: true; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Sell Commission"; color: palette.placeholderText }
-                            TextField { id: outComm; Layout.fillWidth: true; text: "0.0"; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: outComm; Layout.fillWidth: true; text: "0.0"; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Label { text: "Sell Taxes"; color: palette.placeholderText }
-                            TextField { id: outSellTaxes; Layout.fillWidth: true; text: "0.0"; validator: DoubleValidator { bottom: 0 } }
+                            TextField { id: outSellTaxes; Layout.fillWidth: true; text: "0.0"; validator: RegularExpressionValidator { regularExpression: /^[0-9., ]+$/ } }
 
                             Item { Layout.fillHeight: true }
 
@@ -125,7 +130,12 @@ Item {
                                 palette.buttonText: "#ffffff"
                                 onClicked: {
                                     txController.sell_asset_global(
-                                        outDate.text, outTicker.text, outQty.text, outPrice.text, outComm.text, outSellTaxes.text
+                                        outDate.text, 
+                                        outTicker.text, 
+                                        window.sanitizeNum(outQty.text), 
+                                        window.sanitizeNum(outPrice.text), 
+                                        window.sanitizeNum(outComm.text), 
+                                        window.sanitizeNum(outSellTaxes.text)
                                     )
                                     outTicker.text = ""
                                     outQty.text = ""
@@ -171,23 +181,23 @@ Item {
 
                         ColumnLayout {
                             Layout.fillWidth: true
-                            Label { text: model.ticker; font.bold: true; font.pixelSize: 18; color: palette.text }
-                            Label { text: model.status; color: model.status === 'ACTIVE' ? window.colGreen : window.colOrange; font.bold: true }
+                            SelectableLabel { text: model.ticker; font.bold: true; font.pixelSize: 18; color: palette.text }
+                            SelectableLabel { text: model.status; color: model.status === 'ACTIVE' ? window.colGreen : window.colOrange; font.bold: true }
                         }
 
                         ColumnLayout {
                             Layout.fillWidth: true
-                            Label { text: "Original Lot: " + model.quantity + " @ $" + model.price; color: palette.placeholderText }
-                            Label { text: "Bought: " + model.date; color: palette.placeholderText }
-                            Label { text: "Fees (Comm/Tax): $" + model.commission + " / $" + model.buy_taxes; color: palette.placeholderText }
+                            SelectableLabel { text: "Original Lot: " + window.fmtQty(model.quantity) + " @ " + window.fmtCurrency(model.price); color: palette.placeholderText }
+                            SelectableLabel { text: "Bought: " + model.date; color: palette.placeholderText }
+                            SelectableLabel { text: "Fees (Comm/Tax): " + window.fmtCurrency(model.commission) + " / " + window.fmtCurrency(model.buy_taxes); color: palette.placeholderText }
                         }
 
                         ColumnLayout {
                             Layout.fillWidth: true
                             visible: parseFloat(model.shares_sold) > 0
-                            Label { text: "Sold: " + model.shares_sold + " @ $" + model.price_out; color: window.colOrange }
-                            Label { text: "Exit Date: " + model.date_out; color: palette.placeholderText }
-                            Label { text: "Exit Fees: $" + model.sell_commissions + " / $" + model.sell_taxes; color: palette.placeholderText }
+                            SelectableLabel { text: "Sold: " + window.fmtQty(model.shares_sold) + " @ " + window.fmtCurrency(model.price_out); color: window.colOrange }
+                            SelectableLabel { text: "Exit Date: " + model.date_out; color: palette.placeholderText }
+                            SelectableLabel { text: "Exit Fees: " + window.fmtCurrency(model.sell_commissions) + " / " + window.fmtCurrency(model.sell_taxes); color: palette.placeholderText }
                         }
 
                         Button {

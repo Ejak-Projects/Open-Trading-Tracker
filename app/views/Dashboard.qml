@@ -69,8 +69,8 @@ Item {
                 ColumnLayout {
                     anchors.centerIn: parent
                     Label { text: "Total Invested"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                    Label { 
-                        text: "$" + dashboardController.totalInvested.toFixed(2)
+                    SelectableLabel { 
+                        text: window.fmtCurrency(dashboardController.totalInvested)
                         font.pixelSize: 28; font.bold: true
                         color: palette.text
                         Layout.alignment: Qt.AlignHCenter
@@ -90,8 +90,8 @@ Item {
                 ColumnLayout {
                     anchors.centerIn: parent
                     Label { text: "Current Value"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                    Label { 
-                        text: "$" + dashboardController.currentValue.toFixed(2)
+                    SelectableLabel { 
+                        text: window.fmtCurrency(dashboardController.currentValue)
                         font.pixelSize: 28; font.bold: true
                         color: window.colBlue
                         Layout.alignment: Qt.AlignHCenter
@@ -111,8 +111,8 @@ Item {
                 ColumnLayout {
                     anchors.centerIn: parent
                     Label { text: "Profit / Loss"; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter }
-                    Label { 
-                        text: (dashboardController.profitLoss >= 0 ? "+$" : "-$") + Math.abs(dashboardController.profitLoss).toFixed(2) + 
+                    SelectableLabel { 
+                        text: (dashboardController.profitLoss >= 0 ? "+" : "-") + window.fmtCurrency(Math.abs(dashboardController.profitLoss)) + 
                               " (" + dashboardController.profitLossPct.toFixed(2) + "%)"
                         font.pixelSize: 28; font.bold: true
                         color: dashboardController.profitLoss >= 0 ? window.colGreen : window.colRed
@@ -204,21 +204,21 @@ Item {
                             
                             ColumnLayout {
                                 Layout.fillWidth: true
-                                Label { text: model.ticker; font.bold: true; font.pixelSize: 20; color: palette.text }
-                                Label { text: model.shares + " shares"; color: palette.placeholderText }
+                                SelectableLabel { text: model.ticker; font.bold: true; font.pixelSize: 20; color: palette.text }
+                                SelectableLabel { text: window.fmtQty(model.shares) + " shares"; color: palette.placeholderText }
                             }
                             
                             ColumnLayout {
                                 Layout.fillWidth: true
-                                Label { text: "Invested: $" + model.invested; color: palette.placeholderText }
-                                Label { text: "Price: $" + model.current_price; color: palette.text }
+                                SelectableLabel { text: "Invested: " + window.fmtCurrency(model.invested); color: palette.placeholderText }
+                                SelectableLabel { text: "Price: " + window.fmtCurrency(model.current_price); color: palette.text }
                             }
                             
                             ColumnLayout {
                                 Layout.alignment: Qt.AlignRight
-                                Label { text: "Value: $" + model.current_value; font.bold: true; font.pixelSize: 18; Layout.alignment: Qt.AlignRight; color: palette.text }
-                                Label { 
-                                    text: (parseFloat(model.yield_net) >= 0 ? "+" : "") + model.yield_net + " (" + model.yield_pct + "%)"
+                                SelectableLabel { text: "Value: " + window.fmtCurrency(model.current_value); font.bold: true; font.pixelSize: 18; Layout.alignment: Qt.AlignRight; color: palette.text }
+                                SelectableLabel { 
+                                    text: (parseFloat(model.yield_net) >= 0 ? "+" : "") + window.fmtCurrency(model.yield_net) + " (" + model.yield_pct + "%)"
                                     color: parseFloat(model.yield_net) >= 0 ? window.colGreen : window.colRed
                                     font.bold: true
                                     Layout.alignment: Qt.AlignRight

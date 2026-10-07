@@ -26,8 +26,8 @@ Item {
         ColumnLayout {
             anchors.centerIn: parent
             Label { text: titleText; color: palette.placeholderText; Layout.alignment: Qt.AlignHCenter; font.pixelSize: 14 }
-            Label { 
-                text: (isProfit && val >= 0 ? "+$" : (val < 0 ? "-$" : "$")) + Math.abs(val).toFixed(2)
+            SelectableLabel { 
+                text: (isProfit && val >= 0 ? "+" : (val < 0 ? "-" : "")) + window.fmtCurrency(Math.abs(val))
                 font.pixelSize: 28; font.bold: true
                 color: isProfit ? (val >= 0 ? window.colGreen : window.colRed) : valColor
                 Layout.alignment: Qt.AlignHCenter
@@ -117,26 +117,26 @@ Item {
                                 ColumnLayout {
                                     Layout.fillWidth: true
                                     Layout.leftMargin: 10
-                                    Label { text: model.ticker; font.bold: true; font.pixelSize: 18; color: palette.text }
-                                    Label { text: model.date; color: palette.placeholderText; font.pixelSize: 12 }
+                                    SelectableLabel { text: model.ticker; font.bold: true; font.pixelSize: 18; color: palette.text }
+                                    SelectableLabel { text: model.date; color: palette.placeholderText; font.pixelSize: 12 }
                                 }
                                 
                                 ColumnLayout {
                                     Layout.fillWidth: true
-                                    Label { text: "Qty: " + model.qty; color: palette.placeholderText }
-                                    Label { text: "Price: $" + model.price; color: palette.placeholderText }
+                                    SelectableLabel { text: "Qty: " + window.fmtQty(model.qty); color: palette.placeholderText }
+                                    SelectableLabel { text: "Price: " + window.fmtCurrency(model.price); color: palette.placeholderText }
                                 }
                                 
                                 ColumnLayout {
                                     Layout.alignment: Qt.AlignRight
-                                    Label { 
-                                        text: "Amount: $" + model.amount
+                                    SelectableLabel { 
+                                        text: "Amount: " + window.fmtCurrency(model.amount)
                                         font.bold: true; font.pixelSize: 16
                                         color: model.type === 'BUY' ? palette.text : window.colGreen
                                         Layout.alignment: Qt.AlignRight
                                     }
-                                    Label { 
-                                        text: "Fees (Tax+Comm): $" + model.fees
+                                    SelectableLabel { 
+                                        text: "Fees (Tax+Comm): " + window.fmtCurrency(model.fees)
                                         color: window.colOrange
                                         font.pixelSize: 12
                                         Layout.alignment: Qt.AlignRight

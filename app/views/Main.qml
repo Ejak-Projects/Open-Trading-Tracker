@@ -58,6 +58,41 @@ ApplicationWindow {
     property color colOrange: isDark ? "#fab387" : "#fe640b"
     property color colBlue: isDark ? "#89b4fa" : "#1e66f5"
 
+    function fmtCurrency(val) {
+        var num = parseFloat(val);
+        if (isNaN(num)) return "$0.00";
+        var isNeg = num < 0;
+        return (isNeg ? "-$" : "$") + Math.abs(num).toLocaleString(Qt.locale("en_US"), 'f', 2);
+    }
+    
+    function fmtQty(val) {
+        var num = parseFloat(val);
+        if (isNaN(num)) return "0";
+        // Avoid .0000 for integers but allow decimals if exist
+        return num.toLocaleString(Qt.locale("en_US"), 'f', num % 1 === 0 ? 0 : 4).replace(/0+$/, '').replace(/\.$/, '');
+    }
+
+    function sanitizeNum(val) {
+        if (!val) return "0";
+        var str = val.toString().trim().replace(/ /g, '');
+        if (str.indexOf(',') > -1 && str.indexOf('.') > -1) {
+            // Both present: determine which is decimal
+            if (str.lastIndexOf('.') > str.lastIndexOf(',')) {
+                return str.replace(/,/g, ''); // 1,880.71 -> 1880.71
+            } else {
+                return str.replace(/\./g, '').replace(',', '.'); // 1.880,71 -> 1880.71
+            }
+        } else if (str.indexOf(',') > -1) {
+            // Only commas
+            var commaCount = (str.match(/,/g) || []).length;
+            if (commaCount > 1) {
+                return str.replace(/,/g, ''); // 1,000,000 -> 1000000
+            }
+            return str.replace(',', '.'); // 10,50 -> 10.50
+        }
+        return str;
+    }
+
     // Ctrl+Q shortcut
     Shortcut {
         sequence: "Ctrl+Q"
