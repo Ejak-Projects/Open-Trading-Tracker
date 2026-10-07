@@ -1,17 +1,12 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
 venv/
 .env
-
-# Base de datos local (¡Muy importante!)
 *.db
 *.sqlite
 *.sqlite3
-
-# Archivos de Arch Linux / Construcción
 pkg/
 src/
 *.pkg.tar.zst
-AI_Agent_Rules.md
+rules/

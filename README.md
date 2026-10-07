@@ -73,7 +73,7 @@ open-trading-tracker
 
 ## ⚙️ Configuration
 Within the application's **Settings** tab, you can customize:
-- **Base Currency**: Set your preferred portfolio currency (USD, EUR, MXN, GBP). The app automatically performs cross-currency conversions for foreign assets.
+- **Base Currency**: Set your preferred portfolio currency (USD, EUR, MXN or JPY). The app automatically performs cross-currency conversions for foreign assets.
 - **API Keys**: Add optional API keys for CoinGecko or AlphaVantage to bypass free-tier rate limits.
 
 ## 🤝 Contributing & Forks (Other Distros)
