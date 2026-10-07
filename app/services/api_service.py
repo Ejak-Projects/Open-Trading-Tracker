@@ -86,11 +86,22 @@ class CurrencyExchangeWorker(QThread):
 
     def run(self):
         try:
-            url = f"https://open.er-api.com/v6/latest/{self.base_currency}"
+            api_key = self.settings.get('api_key_exchangerate', '').strip()
+            
+            if api_key:
+                # Use authenticated endpoint
+                url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{self.base_currency}"
+            else:
+                # Fallback to the free public endpoint
+                url = f"https://open.er-api.com/v6/latest/{self.base_currency}"
+                
             response = requests.get(url, timeout=10)
             response.raise_for_status()
             data = response.json()
-            rates = data.get("rates", {})
+            
+            # The authenticated endpoint returns 'conversion_rates', while the free one returns 'rates'
+            rates = data.get("conversion_rates", data.get("rates", {}))
+            
             self.exchange_fetched.emit(rates)
         except Exception as e:
             self.error_occurred.emit(str(e))
